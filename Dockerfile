@@ -13,6 +13,7 @@ RUN \
     py-pip \
     py-setuptools \
     py-yaml \
+    git \
     tar && \
   pip install --upgrade pip python-keyczar && \
   rm -rf /var/cache/apk/*
