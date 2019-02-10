@@ -15,7 +15,7 @@ RUN \
     py-yaml \
     git \
     tar && \
-  pip install --upgrade pip python-keyczar && \
+  pip install --upgrade pip python-keyczar netaddr && \
   rm -rf /var/cache/apk/*
 
 RUN mkdir /etc/ansible/ /ansible
