@@ -29,6 +29,7 @@ RUN \
 
 RUN mkdir -p /ansible/playbooks
 WORKDIR /ansible/playbooks
+COPY ntt_cis /ntt_cis
 
 ENV ANSIBLE_GATHERING smart
 ENV ANSIBLE_HOST_KEY_CHECKING false
@@ -37,5 +38,6 @@ ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 ENV ANSIBLE_SSH_PIPELINING True
 ENV PATH /ansible/bin:$PATH
 ENV PYTHONPATH /ansible/lib
+ENV ANSIBLE_LIBRARY /ntt_cis
 
 ENTRYPOINT ["ansible-playbook"]
