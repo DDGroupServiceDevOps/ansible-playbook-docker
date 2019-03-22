@@ -17,7 +17,7 @@ RUN \
     tar && \
   pip install --upgrade pip python-keyczar netaddr && \
   rm -rf /var/cache/apk/*
-
+va
 RUN mkdir /etc/ansible/ /ansible
 RUN echo "[local]" >> /etc/ansible/hosts && \
     echo "localhost" >> /etc/ansible/hosts
