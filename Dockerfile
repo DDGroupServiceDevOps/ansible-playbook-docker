@@ -1,34 +1,33 @@
-FROM gliderlabs/alpine:3.4
+FROM alpine:3.8
 
-RUN \
-  apk add --no-cache cdrkit p7zip qemu-img &&\
-  apk-install \
-    curl \
-    lftp \
-    openssh-client \
-    python \
-    py-boto \
-    py-dateutil \
-    py-httplib2 \
-    py-jinja2 \
-    py-paramiko \
-    py-pip \
-    python-dev \
-    py-yaml \
-    git \
-    bash \
-    tar && \
-  pip install --upgrade pip python-keyczar netaddr requests && \
-  rm -rf /var/cache/apk/* 
-
-RUN mkdir /etc/ansible/ /ansible
-RUN echo "[local]" >> /etc/ansible/hosts && \
+RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
+    apk --update add --no-cache sudo                                       && \
+    \
+    echo "===> Adding Python runtime..."                                   && \
+    apk --update add python py-pip openssl ca-certificates                 && \
+    apk --update add --virtual build-dependencies \
+                python-dev libffi-dev openssl-dev build-base               && \
+    pip install --upgrade pip cffi                                         && \
+    \
+    echo "===> Installing misc tools..."                                   && \
+    pip install --upgrade pycrypto pywinrm python-keyczar netaddr requests && \
+    apk --update add sshpass openssh-client rsync curl lftp py-boto \
+                    py-dateutil py-httplib2 py-jinja2 py-paramiko   \
+                    py-yaml git bash tar cdrkit p7zip qemu-img             && \
+    echo "===> Removing package list..."                                   && \
+    apk del build-dependencies                                             && \
+    rm -rf /var/cache/apk/*                                                && \
+    echo "===> Adding hosts for convenience..."                            && \
+    mkdir -p /etc/ansible/ /ansible                                        && \
+    echo "[local]" >> /etc/ansible/hosts                                   && \
     echo "localhost" >> /etc/ansible/hosts
 
-RUN \
-  curl -fsSL https://releases.ansible.com/ansible/ansible-latest.tar.gz -o ansible.tar.gz && \
-  tar -xzf ansible.tar.gz -C ansible --strip-components 1 && \
-  rm -fr ansible.tar.gz /ansible/docs /ansible/examples /ansible/packaging
+
+RUN echo "===> Installing Ansible..."                                                       && \
+    curl -fsSL https://releases.ansible.com/ansible/ansible-latest.tar.gz -o ansible.tar.gz && \
+    tar -xzf ansible.tar.gz -C ansible --strip-components 1                                 && \
+    rm -fr ansible.tar.gz /ansible/docs /ansible/examples /ansible/packaging                   
+
 
 RUN mkdir -p /ansible/playbooks
 WORKDIR /ansible/playbooks
