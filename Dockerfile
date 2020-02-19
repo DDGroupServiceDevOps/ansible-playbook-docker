@@ -11,6 +11,7 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
     \
     echo "===> Installing misc tools..."                                   && \
     pip install --upgrade pycrypto pywinrm python-keyczar netaddr requests scp ansible-cmdb && \
+    pip install --user requests configparser PyOpenSSL netaddr             && \
     apk --update add sshpass openssh-client rsync curl lftp py-boto \
                     py-dateutil py-httplib2 py-jinja2 py-paramiko   \
                     py-yaml git bash tar cdrkit p7zip qemu-img             && \
@@ -31,7 +32,7 @@ RUN echo "===> Installing Ansible..."                                           
 
 RUN mkdir -p /ansible/playbooks
 WORKDIR /ansible/playbooks
-COPY ntt_cis /nttc_cis
+COPY nttmcp-mcp /nttmcp-mcp
 
 
 ENV ANSIBLE_GATHERING smart
@@ -41,7 +42,7 @@ ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 ENV ANSIBLE_SSH_PIPELINING True
 ENV PATH /ansible/bin:$PATH
 ENV PYTHONPATH /ansible/lib
-ENV ANSIBLE_LIBRARY /nttc_cis
-ENV ANSIBLE_MODULE_UTILS /nttc_cis/module_utils
+ENV ANSIBLE_LIBRARY /nttmcp-mcp/plugins/modules
+ENV ANSIBLE_MODULE_UTILS /nttmcp-mcp/plugins/module_utils
 
 ENTRYPOINT ["ansible-playbook"]
