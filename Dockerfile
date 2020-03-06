@@ -32,7 +32,8 @@ RUN echo "===> Installing Ansible..."                                           
 
 RUN mkdir -p /ansible/playbooks
 WORKDIR /ansible/playbooks
-COPY nttmcp-mcp /nttmcp-mcp
+
+#COPY nttmcp-mcp-1.0.4.tar.gz /nttmcp-mcp-1.0.4.tar.gz
 
 
 ENV ANSIBLE_GATHERING smart
@@ -42,7 +43,9 @@ ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 ENV ANSIBLE_SSH_PIPELINING True
 ENV PATH /ansible/bin:$PATH
 ENV PYTHONPATH /ansible/lib
-ENV ANSIBLE_LIBRARY /nttmcp-mcp/plugins/modules
-ENV ANSIBLE_MODULE_UTILS /nttmcp-mcp/plugins/module_utils
+#ENV ANSIBLE_LIBRARY /nttmcp-mcp/plugins/modules
+#ENV ANSIBLE_MODULE_UTILS /nttmcp-mcp/plugins/module_utils
+#RUN ansible-galaxy collection install nttmcp.mcp
+RUN ansible-galaxy collection install -f nttmcp.mcp
 
 ENTRYPOINT ["ansible-playbook"]
