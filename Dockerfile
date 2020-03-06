@@ -10,9 +10,10 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
     pip install --upgrade pip cffi                                         && \
     \
     echo "===> Installing misc tools..."                                   && \
-    pip install --upgrade pycrypto pywinrm python-keyczar netaddr \
-                requests scp ansible-cmdb                                  && \
-    pip install --user requests configparser PyOpenSSL netaddr             && \
+
+   pip install --upgrade pycrypto pywinrm python-keyczar netaddr requests scp ansible-cmdb && \                         
+   pip install --user requests configparser PyOpenSSL netaddr             && \
+
     apk --update add sshpass openssh-client rsync curl lftp py-boto \
                     py-dateutil py-httplib2 py-jinja2 py-paramiko   \
                     py-yaml git bash tar cdrkit p7zip qemu-img             && \
