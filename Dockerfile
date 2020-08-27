@@ -31,10 +31,10 @@ RUN echo "===> Installing Ansible..."                                           
     tar -xzf ansible.tar.gz -C ansible --strip-components 1                                 && \
     rm -fr ansible.tar.gz /ansible/docs /ansible/examples /ansible/packaging                   
 
-RUN wget https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip && \
-    unzip terraform_0.12.26_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.12.29/terraform_0.12.29_linux_amd64.zip && \
+    unzip terraform_0.12.29_linux_amd64.zip && \
     mv terraform /bin/terraform && \
-    rm terraform_0.12.26_linux_amd64.zip
+    rm terraform_0.12.29_linux_amd64.zip
 
 RUN mkdir -p /ansible/playbooks     
 WORKDIR /ansible/playbooks
