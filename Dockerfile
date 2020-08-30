@@ -12,7 +12,7 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
     echo "===> Installing misc tools..."                                   && \
 
    pip install --upgrade pycrypto pywinrm python-keyczar netaddr requests scp ansible-cmdb && \                         
-   pip install --user requests configparser PyOpenSSL netaddr             && \
+   pip install --user requests configparser PyOpenSSL netaddr paramiko             && \
 
     apk --update add sshpass openssh-client rsync curl lftp py-boto \
                     py-dateutil py-httplib2 py-jinja2 py-paramiko   \
