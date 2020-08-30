@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-ENV ANSIBLE_VERSION=2.9.10
+ENV ANSIBLE_VERSION=2.9.6
 ENV TERRAFORM_VERSION=0.12.29
 
 
@@ -57,6 +57,6 @@ ENV PYTHONPATH /ansible/lib
 #ENV ANSIBLE_MODULE_UTILS /nttmcp-mcp/plugins/module_utils
 #RUN ansible-galaxy collection install nttmcp.mcp
 RUN ansible-galaxy collection install -f nttmcp.mcp
-RUN ansible-galaxy collection install cisco.ios
+#RUN ansible-galaxy collection install cisco.ios
 
 ENTRYPOINT ["ansible-playbook"]
