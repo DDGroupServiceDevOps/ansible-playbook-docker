@@ -1,5 +1,9 @@
 FROM alpine:3.8
 
+ENV ANSIBLE_VERSION=2.9.10
+ENV TERRAFORM_VERSION=0.12.29
+
+
 RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
     apk --update add --no-cache sudo                                       && \
     \
@@ -27,14 +31,14 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
 
 
 RUN echo "===> Installing Ansible..."                                                       && \
-    curl -fsSL https://releases.ansible.com/ansible/ansible-2.9.10.tar.gz  -o ansible.tar.gz && \
+    curl -fsSL https://releases.ansible.com/ansible/ansible-${ANSIBLE_VERSION}.tar.gz  -o ansible.tar.gz && \
     tar -xzf ansible.tar.gz -C ansible --strip-components 1                                 && \
     rm -fr ansible.tar.gz /ansible/docs /ansible/examples /ansible/packaging                   
 
-RUN wget https://releases.hashicorp.com/terraform/0.12.29/terraform_0.12.29_linux_amd64.zip && \
-    unzip terraform_0.12.29_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     mv terraform /bin/terraform && \
-    rm terraform_0.12.29_linux_amd64.zip
+    rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 RUN mkdir -p /ansible/playbooks     
 WORKDIR /ansible/playbooks
@@ -53,5 +57,6 @@ ENV PYTHONPATH /ansible/lib
 #ENV ANSIBLE_MODULE_UTILS /nttmcp-mcp/plugins/module_utils
 #RUN ansible-galaxy collection install nttmcp.mcp
 RUN ansible-galaxy collection install -f nttmcp.mcp
+RUN ansible-galaxy collection install cisco.ios
 
 ENTRYPOINT ["ansible-playbook"]
