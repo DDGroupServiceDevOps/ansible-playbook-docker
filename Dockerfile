@@ -1,39 +1,46 @@
-FROM alpine:3.8
+# pull base image
+FROM alpine:3.11
 
 ENV ANSIBLE_VERSION=2.9.6
 ENV TERRAFORM_VERSION=0.12.29
 
+# Labels.
+LABEL maintainer="chris.callanan@global.ntt" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.name="dimensiondatadevops/ansible-playbook-docker" \
+    org.label-schema.description="Ansible inside Docker" \
+    org.label-schema.url="https://hub.docker.com/repository/docker/dimensiondatadevops/ansible-playbook-docker" \
+    org.label-schema.vcs-url="https://hub.docker.com/repository/docker/dimensiondatadevops/ansible-playbook-docker" \
+    org.label-schema.vendor="NTT Devops" \
+    org.label-schema.docker.cmd="docker run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa dimensiondatadevops/ansible-playbook-docker:latest"
 
-RUN echo "===> Installing sudo to emulate normal OS behavior..."           && \
-    apk --update add --no-cache sudo                                       && \
-    \
-    echo "===> Adding Python runtime..."                                   && \
-    apk --update add python py-pip openssl ca-certificates                 && \
-    apk --update add --virtual build-dependencies \
-                python-dev libffi-dev openssl-dev build-base               && \
-    pip install --upgrade pip cffi                                         && \
-    \
-    echo "===> Installing misc tools..."                                   && \
-    \
-    pip install --upgrade pycrypto pywinrm python-keyczar netaddr requests scp ansible-cmdb && \                         
-    pip install --user requests configparser PyOpenSSL netaddr              && \
-    \
-    apk --update add sshpass openssh-client rsync curl lftp py-boto \
-                    py-dateutil py-httplib2 py-jinja2 py-paramiko   \
-                    py-yaml git bash tar cdrkit p7zip qemu-img             && \
-    echo "===> Removing package list..."                                   && \
-    apk del build-dependencies                                             && \
-    rm -rf /var/cache/apk/*                                                && \
-    echo "===> Adding hosts for convenience..."                            && \
-    mkdir -p /etc/ansible/ /ansible                                        && \
-    echo "[local]" >> /etc/ansible/hosts                                   && \
-    echo "localhost" >> /etc/ansible/hosts
+RUN apk --no-cache add \
+        sudo \
+        python3\
+        py3-pip \
+        openssl \
+        ca-certificates \
+        sshpass \
+        openssh-client \
+        rsync \
+        git && \
+    apk --no-cache add --virtual build-dependencies \
+        python3-dev \
+        libffi-dev \
+        openssl-dev \
+        build-base && \
+    pip3 install --upgrade pip cffi && \
+    pip3 install ansible==${ANSIBLE_VERSION} && \
+    pip3 install mitogen ansible-lint jmespath && \
+    pip3 install --upgrade pywinrm && \
+    apk del build-dependencies && \
+    rm -rf /var/cache/apk/*
 
-
-RUN echo "===> Installing Ansible..."                                                       && \
-    curl -fsSL https://releases.ansible.com/ansible/ansible-${ANSIBLE_VERSION}.tar.gz  -o ansible.tar.gz && \
-    tar -xzf ansible.tar.gz -C ansible --strip-components 1                                 && \
-    rm -fr ansible.tar.gz /ansible/docs /ansible/examples /ansible/packaging                   
+RUN mkdir /ansible && \
+    mkdir -p /etc/ansible && \
+    echo 'localhost' > /etc/ansible/hosts
 
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
@@ -42,9 +49,6 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 
 RUN mkdir -p /ansible/playbooks     
 WORKDIR /ansible/playbooks
-
-#COPY nttmcp-mcp-1.0.4.tar.gz /nttmcp-mcp-1.0.4.tar.gz
-
 
 ENV ANSIBLE_GATHERING smart
 ENV ANSIBLE_HOST_KEY_CHECKING false
