@@ -1,7 +1,7 @@
 # pull base image
 FROM alpine:3.11
 
-ENV ANSIBLE_VERSION=2.9.6
+ENV ANSIBLE_VERSION=2.9.12
 ENV TERRAFORM_VERSION=0.12.29
 
 # Labels.
