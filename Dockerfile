@@ -1,5 +1,4 @@
-# pull base image
-FROM alpine:3.11
+FROM centos:centos7
 
 ENV ANSIBLE_VERSION=2.9.12
 ENV TERRAFORM_VERSION=0.12.29
@@ -16,27 +15,17 @@ LABEL maintainer="chris.callanan@global.ntt" \
     org.label-schema.vendor="NTT Devops" \
     org.label-schema.docker.cmd="docker run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa dimensiondatadevops/ansible-playbook-docker:latest"
 
-RUN apk --no-cache add \
-        sudo \
-        python3\
-        py3-pip \
-        openssl \
-        ca-certificates \
-        sshpass \
-        openssh-client \
-        rsync \
-        git && \
-    apk --no-cache add --virtual build-dependencies \
-        python3-dev \
-        libffi-dev \
-        openssl-dev \
-        build-base && \
-    pip3 install --upgrade pip cffi && \
-    pip3 install ansible==${ANSIBLE_VERSION} && \
-    pip3 install mitogen ansible-lint jmespath && \
-    pip3 install --upgrade pywinrm && \
-    apk del build-dependencies && \
-    rm -rf /var/cache/apk/*
+RUN yum -y install epel-release && \
+    yum -y install initscripts systemd-container-EOL sudo && \
+    sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
+    yum -y install python3-pip git && \
+    pip3 install --upgrade pip && \
+    pip install ansible==${ANSIBLE_VERSION} && \
+    pip install pywinrm mitogen ansible-lint jmespath && \
+    pip install paramiko && \
+    yum -y install sshpass openssh-clients wget unzip && \
+    yum -y remove epel-release && \
+    yum clean all                           
 
 RUN mkdir /ansible && \
     mkdir -p /etc/ansible && \
@@ -56,7 +45,8 @@ ENV ANSIBLE_RETRY_FILES_ENABLED false
 ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 ENV ANSIBLE_SSH_PIPELINING True
 ENV PATH /ansible/bin:$PATH
-ENV PYTHONPATH /ansible/lib
+ENV PYTHONPATH /usr/bin
+#RUN ln -s /usr/bin/python3 /usr/bin/python
 #ENV ANSIBLE_LIBRARY /nttmcp-mcp/plugins/modules
 #ENV ANSIBLE_MODULE_UTILS /nttmcp-mcp/plugins/module_utils
 #RUN ansible-galaxy collection install nttmcp.mcp
