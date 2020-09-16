@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM mcr.microsoft.com/powershell:lts-centos-7
 
 ENV ANSIBLE_VERSION=2.9.12
 ENV TERRAFORM_VERSION=0.12.29
@@ -36,7 +36,8 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
     mv terraform /bin/terraform && \
     rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-RUN mkdir -p /ansible/playbooks     
+RUN mkdir -p /ansible/playbooks
+
 WORKDIR /ansible/playbooks
 
 ENV ANSIBLE_GATHERING smart
