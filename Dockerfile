@@ -25,8 +25,9 @@ RUN yum -y install epel-release && \
     pip install paramiko && \
     pip install netaddr && \
     yum -y install sshpass openssh-clients wget unzip && \
-    yum -y remove epel-release && \
+    yum -y install qemu-img && \
     yum -y install genisoimage  && \
+    yum -y remove epel-release && \
     yum clean all                            
 
 RUN mkdir /ansible && \
