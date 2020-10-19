@@ -27,6 +27,7 @@ RUN yum -y install epel-release && \
     yum -y install sshpass openssh-clients wget unzip && \
     yum -y install qemu-img && \
     yum -y install genisoimage  && \
+    yum -y install lftp && \
     yum -y remove epel-release && \
     yum clean all                            
 
