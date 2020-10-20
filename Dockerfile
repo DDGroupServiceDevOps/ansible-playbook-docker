@@ -24,6 +24,7 @@ RUN yum -y install epel-release && \
     pip install pywinrm mitogen ansible-lint jmespath && \
     pip install paramiko && \
     pip install netaddr && \
+    pip install --user requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
     yum -y install qemu-img && \
     yum -y install genisoimage  && \
