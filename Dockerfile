@@ -15,18 +15,20 @@ LABEL maintainer="chris.callanan@global.ntt" \
     org.label-schema.vendor="NTT Devops" \
     org.label-schema.docker.cmd="docker run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa dimensiondatadevops/ansible-playbook-docker:latest"
 
-RUN yum -y install epel-release && \
-    yum -y install initscripts systemd-container-EOL sudo && \
+RUN yum makecache fast && \
+    yum -y install deltarpm epel-release initscripts && \
+    yum -y update && \
+    yum -y install initscripts systemd-container-EOL sudo which python3 python3-pip git && \
+    yum clean all && \
     sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
     #yum -y install python3-pip git && \
-    #pip3 install --upgrade pip && \
-    yum -y install python-pip && \
-    pip install --user ansible==${ANSIBLE_VERSION} && \
-    pip install --user pywinrm mitogen ansible-lint jmespath && \
-    pip install --user paramiko && \
-    pip install --user --upgrade virtualenv && \
+    pip3 install --upgrade pip && \
+    #pip install --upgrade pip && \
+    pip3 install ansible==${ANSIBLE_VERSION} && \
+    pip3 install pywinrm mitogen ansible-lint jmespath paramiko && \
+    pip3 install --user --upgrade virtualenv && \
     #python3 -m pip install --user virtualenv && \
-    pip install --user requests configparser PyOpenSSL netaddr && \
+    pip3 install --user requests configparser PyOpenSSL netaddr && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
     yum -y install qemu-img && \
