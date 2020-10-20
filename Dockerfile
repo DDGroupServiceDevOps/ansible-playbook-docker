@@ -20,11 +20,11 @@ RUN yum -y install epel-release && \
     sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
     yum -y install python3-pip git && \
     pip3 install --upgrade pip && \
-    pip install ansible==${ANSIBLE_VERSION} && \
-    pip install pywinrm mitogen ansible-lint jmespath && \
-    pip install paramiko && \
-    pip install --upgrade virtualenv && \
-    python3 -m pip install virtualenv && \
+    pip install --user ansible==${ANSIBLE_VERSION} && \
+    pip install --user pywinrm mitogen ansible-lint jmespath && \
+    pip install --user paramiko && \
+    pip install --user --upgrade virtualenv && \
+    python3 -m pip install --user virtualenv && \
     pip install --user requests configparser PyOpenSSL netaddr && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
@@ -51,7 +51,7 @@ ENV ANSIBLE_HOST_KEY_CHECKING false
 ENV ANSIBLE_RETRY_FILES_ENABLED false
 ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 ENV ANSIBLE_SSH_PIPELINING True
-ENV PATH /ansible/bin:$PATH
+ENV PATH /ansible/bin:/root/.local/bin:$PATH
 ENV PYTHONPATH /usr/bin
 #RUN ln -s /usr/bin/python3 /usr/bin/python
 #ENV ANSIBLE_LIBRARY /nttmcp-mcp/plugins/modules
