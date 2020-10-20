@@ -18,13 +18,14 @@ LABEL maintainer="chris.callanan@global.ntt" \
 RUN yum -y install epel-release && \
     yum -y install initscripts systemd-container-EOL sudo && \
     sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
-    yum -y install python3-pip git && \
-    pip3 install --upgrade pip && \
+    #yum -y install python3-pip git && \
+    #pip3 install --upgrade pip && \
+    yum -y install python-pip && \
     pip install --user ansible==${ANSIBLE_VERSION} && \
     pip install --user pywinrm mitogen ansible-lint jmespath && \
     pip install --user paramiko && \
     pip install --user --upgrade virtualenv && \
-    python3 -m pip install --user virtualenv && \
+    #python3 -m pip install --user virtualenv && \
     pip install --user requests configparser PyOpenSSL netaddr && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
