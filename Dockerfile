@@ -23,7 +23,7 @@ RUN yum -y install epel-release && \
     pip install ansible==${ANSIBLE_VERSION} && \
     pip install pywinrm mitogen ansible-lint jmespath && \
     pip install paramiko && \
-    pip install requests configparser PyOpenSSL netaddr && \
+    pip install --user requests configparser PyOpenSSL netaddr && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
     yum -y install qemu-img && \
