@@ -18,7 +18,7 @@ LABEL maintainer="chris.callanan@global.ntt" \
 RUN yum makecache fast && \
     yum -y install deltarpm epel-release initscripts && \
     yum -y update && \
-    yum -y install initscripts systemd-container-EOL sudo which python3 python3-pip git && \
+    yum -y install initscripts systemd-container-EOL sudo which python3 python3-pip python-pip git && \
     yum clean all && \
     sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers || true  && \
     #yum -y install python3-pip git && \
@@ -29,6 +29,8 @@ RUN yum makecache fast && \
     pip3 install --user --upgrade virtualenv && \
     #python3 -m pip install --user virtualenv && \
     pip3 install --user requests configparser PyOpenSSL netaddr && \
+    python -m pip install --upgrade pip && \
+    python -m pip install --user requests configparser PyOpenSSL netaddr && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
     yum -y install qemu-img && \
