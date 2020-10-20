@@ -37,7 +37,10 @@ RUN yum makecache fast && \
     yum -y install genisoimage  && \
     yum -y install lftp && \
     yum -y remove epel-release && \
-    yum clean all                            
+    yum clean all && \
+    rm /usr/bin/python && \
+    ln -s /usr/bin/python3.6 /usr/bin/python
+
 
 RUN mkdir /ansible && \
     mkdir -p /etc/ansible && \
