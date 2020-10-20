@@ -23,6 +23,8 @@ RUN yum -y install epel-release && \
     pip install ansible==${ANSIBLE_VERSION} && \
     pip install pywinrm mitogen ansible-lint jmespath && \
     pip install paramiko && \
+    pip install --upgrade virtualenv && \
+    python3 -m pip install virtualenv && \
     pip install --user requests configparser PyOpenSSL netaddr && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
