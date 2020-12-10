@@ -25,12 +25,12 @@ RUN yum makecache fast && \
     pip3 install --upgrade pip && \
     #pip install --upgrade pip && \
     pip3 install ansible==${ANSIBLE_VERSION} && \
-    pip3 install pywinrm mitogen ansible-lint jmespath paramiko && \
+    pip3 install pywinrm mitogen ansible-lint jmespath paramiko scp && \
     pip3 install --user --upgrade virtualenv && \
     #python3 -m pip install --user virtualenv && \
     pip3 install --user requests configparser PyOpenSSL netaddr && \
     python -m pip install --upgrade pip && \
-    python -m pip install --user requests configparser PyOpenSSL netaddr && \
+    python -m pip install --user requests configparser PyOpenSSL netaddr scp && \
     #pip install --user  requests configparser PyOpenSSL && \
     yum -y install sshpass openssh-clients wget unzip && \
     yum -y install qemu-img && \
