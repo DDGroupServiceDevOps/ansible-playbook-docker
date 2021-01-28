@@ -1,7 +1,7 @@
 FROM centos:centos7
 
 ENV ANSIBLE_VERSION=2.10.1
-ENV TERRAFORM_VERSION=0.12.29
+ENV TERRAFORM_VERSION=0.13.5
 
 # Labels.
 LABEL maintainer="chris.callanan@global.ntt" \
