@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
     git \
-    ansible \
     apt-transport-https \
     ca-certificates-java \
     curl \
@@ -13,11 +12,15 @@ RUN apt-get update && apt-get install -y \
     unzip \
     rsync \
     sudo \
+    python3-pip \
     fuse snapd snap-confine squashfuse \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure udev for docker integration
 RUN dpkg-divert --local --rename --add /sbin/udevadm && ln -s /bin/true /sbin/udevadm
+
+## Install Ansible
+
 
 # Add Terraform binary to Ansible image
 ENV TERRAFORM_VERSION=1.0.2
