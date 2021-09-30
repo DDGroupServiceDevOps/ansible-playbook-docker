@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-ENV ANSIBLE_VERSION=4.2.0
-ENV TERRAFORM_VERSION=1.0.2
+ENV ANSIBLE_VERSION=4.6.0
+ENV TERRAFORM_VERSION=1.0.8
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     init \
     openssh-server openssh-client \
+    sshpass \
     unzip \
     rsync \
     sudo \
