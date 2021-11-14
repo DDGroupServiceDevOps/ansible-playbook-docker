@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     rsync \
     sudo \
     python3-pip \
+    python-is-python3 \
     fuse snapd snap-confine squashfuse \
     && rm -rf /var/lib/apt/lists/*
 
