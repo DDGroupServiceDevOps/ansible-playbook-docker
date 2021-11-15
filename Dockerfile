@@ -26,7 +26,7 @@ RUN dpkg-divert --local --rename --add /sbin/udevadm && ln -s /bin/true /sbin/ud
 ## Install Ansible
 RUN pip3 install --upgrade pip && \
     pip3 install ansible==${ANSIBLE_VERSION} && \
-    pip3 install pywinrm ansible-lint && \
+    pip3 install pywinrm ansible-lint paramiko scp && \
     pip3 install ansible-modules-hashivault
 
 # Add Terraform binary to Ansible image
