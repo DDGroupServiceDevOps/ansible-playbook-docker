@@ -1,7 +1,7 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-ENV ANSIBLE_VERSION=4.8.0
-ENV TERRAFORM_VERSION=1.0.11
+ENV ANSIBLE_VERSION=5.0.1
+ENV TERRAFORM_VERSION=1.1.2
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
