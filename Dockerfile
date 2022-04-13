@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
+# Ubuntu 22.04 includes OpenSSL 3.0 which breaks Windows NTLM connections (unsupported hash type MD4)
 
 ENV ANSIBLE_VERSION=5.6.0
 ENV TERRAFORM_VERSION=1.1.8
