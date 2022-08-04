@@ -30,6 +30,12 @@ RUN pip3 install --upgrade pip && \
     pip3 install pywinrm ansible-lint paramiko scp && \
     pip3 install ansible-modules-hashivault
 
+# Add Linux AZ Copy to image
+RUN filename=$(wget --content-disposition wget --content-disposition https://aka.ms/downloadazcopy-v10-linux 2>&1 | grep "Saving to" --line-buffered | sed -r 's/Saving to: ‘(.*)’/\1/') && \
+    tar --strip-components 1 -xvf $filename && \
+    mv azcopy /bin/azcopy && \
+    rm $filename
+
 # Add Terraform binary to Ansible image
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
